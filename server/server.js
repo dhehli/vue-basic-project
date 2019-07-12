@@ -15,7 +15,6 @@ app.get('/api/animal', (req, res) => {
 
   database.query(`SELECT * FROM animals`)
   .then(result => {
-    console.log("result", result)
     return res.json(result)
   })
   .catch(err => res.status(500).json({err}))
