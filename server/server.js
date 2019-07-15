@@ -53,8 +53,10 @@ app.post('/api/animal', [
       race,
       colorId
   ])
-  .then(result => {
-    return res.json(result)
+  .then(() => {
+    return res.json({
+      state: "success"
+    })
   })
   .catch(err => res.status(500).json({err}))
 })
@@ -81,8 +83,10 @@ app.put('/api/animal/:id', [
       colorId,
       id
   ])
-  .then(result => {
-    return res.json(result)
+  .then(() => {
+    return res.json({
+      state: "success"
+    })
   })
   .catch(err => res.status(500).json({err}))
 })

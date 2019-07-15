@@ -3,12 +3,21 @@
     <h1>Add Animal</h1>
     <b-button class="my-4" to="/animal">Back</b-button>
 
-    <b-form @submit="onSubmit" v-if="show">
+    <b-alert variant="success" v-if="isDone" show>
+     Animal added
+    </b-alert>
+
+    <div v-for="error in errors" v-bind:key="error.msg">
+      <b-alert variant="danger" show>
+        {{error.msg}}
+      </b-alert>    
+    </div>
+
+    <b-form @submit="onSubmit" v-if="showForm">
       <b-form-group id="input-group-1" label="Name" label-for="name">
         <b-form-input
           id="name"
           v-model="form.name"
-          required
           placeholder="Enter Name"
         ></b-form-input>
       </b-form-group>
@@ -37,8 +46,10 @@
           :options="colors"
         ></b-form-select>
       </b-form-group>
-
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <b-button type="submit" variant="primary" v-if="!isSubmitting">Submit</b-button>
+      <b-button type="submit" disabled variant="primary" v-if="isSubmitting">
+        <b-spinner small label="Loading..."></b-spinner>
+      </b-button>
     </b-form>
     <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
@@ -52,23 +63,37 @@
   export default {
     data() {
       return {
+        showForm: true,
+        isSubmitting: false,
+        isDone: false,
+        errors: [],
         form: {
           name: '',
           age: null,
           race: '',
         },
         colors: [{ text: 'Select One', value: null }, {value: 1, text: "black"}, {value: 2, text: "white"}, {value: 3, text: "gray"}],
-        show: true
       }
     },
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        axios
-          .post('http://localhost:3000/api/animal', this.form)
-          .then(response => {
-            console.log("res", response)
-          })
+        this.isSubmitting = true;
+        this.errors = [];
+
+        setTimeout(() => {
+          axios
+            .post('http://localhost:3000/api/animal', this.form)
+            .then(response => {
+              this.isDone = true;
+            })
+            .catch(err => {
+              this.errors = err.response.data.errors;
+            })
+            .finally(()=> {
+              this.isSubmitting = false;
+            })
+        }, 1000)
       }
     }
   }
