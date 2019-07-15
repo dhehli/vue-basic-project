@@ -1,8 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser'
-import { check, validationResult } from 'express-validator';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { check, validationResult } = require( 'express-validator');
 
-import database from './helpers/Database'
+const database = require('./helpers/Database');
 
 const app = express()
 const port = process.env.PORT || 3000

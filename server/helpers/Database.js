@@ -1,5 +1,5 @@
-import config from 'config'
-import mysql from 'mysql';
+const config = require('config');
+const mysql = require('mysql');
 
 class Database {
   constructor() {
@@ -29,4 +29,4 @@ class Database {
 
 const database = new Database();
 
-export default database;
+module.exports = database;
