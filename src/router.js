@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Animal from './views/Animal.vue'
 import AnimalForm from './views/AnimalForm.vue'
-import About from './views/About.vue'
+import AnimalDetail from './views/AnimalDetail.vue'
 
 Vue.use(Router)
 
@@ -17,18 +17,18 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-    {
       path: '/animal',
       name: 'animal',
       component: Animal
     },
     {
+      path: '/animal/detail/:id',
+      name: 'animaldetail',
+      component: AnimalDetail
+    },
+    {
       path: '/animal/add',
-      name: 'addanimal',
+      name: 'animaladd',
       component: AnimalForm
     },
     {

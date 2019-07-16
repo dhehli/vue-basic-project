@@ -2,28 +2,31 @@
   <div class="about">
     <h1>Animals</h1>
     <b-button class="my-4" to="/animal/add">Add Animal</b-button>
-    <div v-if="isLoading">
-      <b-spinner label="Loading..."></b-spinner>
-    </div>
+
     <b-table striped hover :fields="fields" :items="animals">
       <template slot="show_details" slot-scope="row">        
-        <b-button size="sm" class="mr-2" :to="{ path: '/detail/' + row.item.id }">Details</b-button>
-        <b-button size="sm" variant="danger" @click="deleteAnimal(row.item.id)" class="mr-2">Delete</b-button>
+        <b-button size="sm" class="mr-2" :to="{ path: '/animal/detail/' + row.item.id }">Details</b-button>
+        <b-button size="sm" variant="danger" @click="showModal(row.item.id)">
+          Delete
+        </b-button>
       </template>
     </b-table>
+
+    <!-- Info modal -->
+    <b-modal id="delete-modal" @ok="handleModalOk" @hide="handleMocalCancel">
+      Do you really want to delete this entry?
+    </b-modal>
   </div>
 </template>
 
 
 <script>
 import axios from 'axios';
-import { setTimeout } from 'timers';
 
 export default {
   name:"Animal",
   data() {
     return {
-      isLoading: true,
       fields: [
         { key: 'id', sortable: true },
         { key: 'name', sortable: true },
@@ -32,10 +35,22 @@ export default {
         { key: 'color_id', sortable: true },
         { key: 'show_details', label: ''},
       ],
-      animals: []
+      selectedAnimal: {},
+      animals: [],
+      deleteAnimalId: 0
     }
   },
   methods: {
+    getAnimals(){
+      axios
+      .get('http://localhost:3000/api/animal')
+      .then(response => {
+        this.animals = response.data
+      })
+      .catch((err) => {
+        console.log("err",err)
+      })
+    },
     deleteAnimal(id){
       axios
         .delete(`http://localhost:3000/api/animal/${id}`)
@@ -46,19 +61,21 @@ export default {
         .catch((err) => {
           console.log("err",err)
         })
-    }
+    },
+    showModal(id){
+      this.$root.$emit('bv::show::modal', 'delete-modal')
+      this.deleteAnimalId = id;
+    },
+    handleModalOk(){
+      this.deleteAnimal(this.deleteAnimalId)
+      this.deleteAnimalId = 0;
+    },
+    handleMocalCancel(){
+      this.deleteAnimalId = 0;
+    },
   },
   mounted() {
-    setTimeout(() => {
-      axios
-        .get('http://localhost:3000/api/animal')
-        .then(response => {
-          this.animals = response.data
-        })
-        .finally(() => {
-          this.isLoading = false;
-        })
-    }, 1000)
+   this.getAnimals();
   }
 }
 </script>
