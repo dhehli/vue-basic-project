@@ -16,12 +16,17 @@
     <b-modal id="delete-modal" @ok="handleModalOk" @hide="handleModalCancel">
       Do you really want to delete this entry?
     </b-modal>
+
+    <AnimalForm @clickedSomething="createAnimal" />
+    
   </div>
 </template>
 
 
+
 <script>
 import axios from 'axios';
+import AnimalForm from './AnimalForm.vue'
 
 export default {
   name:"Animal",
@@ -51,6 +56,12 @@ export default {
         console.log("err",err)
       })
     },
+    createAnimal(){
+      console.log("create Animal");
+    },
+    updateAnimal(){
+      console.log("update Animal");
+    },
     deleteAnimal(id){
       axios
         .delete(`http://localhost:3000/api/animal/${id}`)
@@ -76,6 +87,9 @@ export default {
   },
   mounted() {
    this.getAnimals();
+  },
+  components: {
+    AnimalForm
   }
 }
 </script>

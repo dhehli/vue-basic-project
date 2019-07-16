@@ -63,6 +63,7 @@
   import axios from 'axios'
 
   export default {
+    name: "AnimalForm",
     data() {
       return {
         showForm: true,
@@ -82,6 +83,7 @@
         evt.preventDefault()
         this.isSubmitting = true;
         this.errors = [];
+        this.$emit('clickedSomething');
 
         setTimeout(() => {
           axios
