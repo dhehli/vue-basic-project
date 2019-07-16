@@ -13,7 +13,7 @@
     </b-table>
 
     <!-- Info modal -->
-    <b-modal id="delete-modal" @ok="handleModalOk" @hide="handleMocalCancel">
+    <b-modal id="delete-modal" @ok="handleModalOk" @hide="handleModalCancel">
       Do you really want to delete this entry?
     </b-modal>
   </div>
@@ -70,7 +70,7 @@ export default {
       this.deleteAnimal(this.deleteAnimalId)
       this.deleteAnimalId = 0;
     },
-    handleMocalCancel(){
+    handleModalCancel(){
       this.deleteAnimalId = 0;
     },
   },
