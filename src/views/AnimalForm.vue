@@ -9,8 +9,8 @@
 
     <div v-for="error in errors" v-bind:key="error.msg">
       <b-alert variant="danger" show>
-        {{error.msg}}
-      </b-alert>    
+        {{error.msg}} for field {{error.param}}
+      </b-alert>
     </div>
 
     <b-form @submit="onSubmit" v-if="showForm">
@@ -70,7 +70,7 @@
         form: {
           name: '',
           age: null,
-          race: '',
+          race: ''
         },
         colors: [{ text: 'Select One', value: null }, {value: 1, text: "black"}, {value: 2, text: "white"}, {value: 3, text: "gray"}],
       }
@@ -84,7 +84,7 @@
         setTimeout(() => {
           axios
             .post('http://localhost:3000/api/animal', this.form)
-            .then(response => {
+            .then(() => {
               this.isDone = true;
             })
             .catch(err => {
