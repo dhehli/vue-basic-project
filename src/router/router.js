@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home'
-import Animal from './views/Animal'
-import AnimalList from './components/animals/AnimalList'
-import AnimalAddForm from './components/animals/AnimalForm.vue'
-import AnimalEditForm from './components/animals/AnimalEditForm.vue'
-import AnimalDetail from './components/animals/AnimalDetail'
+import Home from '@/views/Home'
+import Animal from '@/views/Animal'
+import AnimalList from '@/components/animals/AnimalList'
+import AnimalAddForm from '@/components/animals/AnimalForm.vue'
+import AnimalEditForm from '@/components/animals/AnimalEditForm.vue'
+import AnimalDetail from '@/components/animals/AnimalDetail'
 
 Vue.use(Router)
 
@@ -19,13 +19,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/animal',
-      name: 'animal',
+      path: '/animal',      
       component: Animal, 
       children: [
         {
           path: '',
-          name: 'animallist',
+          name: 'animal',
           component: AnimalList
         },
         {
