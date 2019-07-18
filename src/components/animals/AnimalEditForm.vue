@@ -74,9 +74,9 @@
         this.isSubmitting = true;
         this.errors = [];
 
-        this.$store.dispatch(ANIMALS_FETCH_UPDATE, {...this.animal}) // TODO: why is this necessary
+        this.$store.dispatch(ANIMALS_FETCH_UPDATE)
         .then(() => {
-          this.isDone = true;
+          this.isDone = true;4
         })
         .catch(err => {
           this.errors = err.response.data.errors;

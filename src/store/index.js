@@ -20,11 +20,7 @@ import {
 
 const initialState = {
   animals: [],
-  animal: {
-  },
-  velo: {
-    id: 1234
-  }
+  animal: {},
 }
 
 export default new Vuex.Store({
