@@ -33,6 +33,7 @@ app.get('/api/animal/:id', (req, res) => {
   .catch(err => res.status(500).json({err}))
 })
 
+
 app.post('/api/animal', [
   check('name').trim().isLength({ min: 1 }),
 ], (req, res) => {
@@ -43,15 +44,14 @@ app.post('/api/animal', [
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const { name, age, race, colorId } = req.body;
+  const { name, age, race } = req.body;
 
   database.query(`
     INSERT INTO animals
-    SET name = ?, age = ?, race = ?, color_id = ?`, [
+    SET name = ?, age = ?, race = ?`, [
       name,
       age,
-      race,
-      colorId
+      race
   ])
   .then(() => {
     return res.json({
@@ -72,15 +72,14 @@ app.put('/api/animal/:id', [
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const { name, age, race, colorId } = req.body;
+  const { name, age, race } = req.body;
 
   database.query(`
     UPDATE animals
-    SET name = ?, age = ?, race = ?, color_id = ? WHERE id = ?`, [
+    SET name = ?, age = ?, race = ? WHERE id = ?`, [
       name,
       age,
       race,
-      colorId,
       id
   ])
   .then(() => {

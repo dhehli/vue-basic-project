@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Animal from '@/views/Animal'
 import AnimalList from '@/components/animals/AnimalList'
-import AnimalAddForm from '@/components/animals/AnimalForm.vue'
+import AnimalAddForm from '@/components/animals/AnimalAddForm.vue'
 import AnimalEditForm from '@/components/animals/AnimalEditForm.vue'
 import AnimalDetail from '@/components/animals/AnimalDetail'
 

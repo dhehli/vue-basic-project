@@ -17,30 +17,22 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import { mapGetters } from "vuex";
+  import { ANIMAL_FETCH } from '@/store/actions.type'  
 
   export default {
     name: "AnimalDetail",
-    data() {
-      return {
-        animal: { }
-      }
+    computed: {
+      ...mapGetters(['animal'])
     },
     methods: {
-      getAnimal(id){
-        axios
-          .get(`http://localhost:3000/api/animal/${id}`)
-          .then(response => {
-            this.animal = response.data
-          })
-          .catch((err) => {
-            console.log("err",err)
-          })
-      },
+      getAnimal(){
+        const { id } = this.$route.params
+        this.$store.dispatch(ANIMAL_FETCH, id)
+      }
     },
-    mounted(){
-      const { id } = this.$route.params
-      this.getAnimal(id);
+    mounted(){      
+      this.getAnimal();
     }
   }
 </script>

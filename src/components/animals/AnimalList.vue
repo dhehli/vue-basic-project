@@ -20,7 +20,9 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapGetters } from "vuex";
+import { ANIMALS_FETCH,ANIMALS_FETCH_DEL } from '@/store/actions.type'
+
 
 export default {
   name:"AnimalList",
@@ -32,34 +34,20 @@ export default {
         { key: 'name', sortable: true },
         { key: 'age', sortable: true },
         { key: 'race', sortable: true },
-        { key: 'color_id', sortable: true },
         { key: 'show_details', label: ''},
       ],
-      animals: [],
       deleteAnimalId: 0
     }
   },
+  computed: {
+    ...mapGetters(['animals'])
+  },
   methods: {
-    getAnimals(){
-      axios
-      .get('http://localhost:3000/api/animal')
-      .then(response => {
-        this.animals = response.data
-      })
-      .catch((err) => {
-        console.log("err",err)
-      })
+    animalsFetch(){
+      this.$store.dispatch(ANIMALS_FETCH)
     },
     deleteAnimal(id){
-      axios
-        .delete(`http://localhost:3000/api/animal/${id}`)
-        .then(() => {
-          const index = this.animals.map(item => item.id).indexOf(id) 
-          this.animals.splice(index, 1);
-        })
-        .catch((err) => {
-          console.log("err",err)
-        })
+      this.$store.dispatch(ANIMALS_FETCH_DEL, id)
     },
     showModal(id){
       this.$root.$emit('bv::show::modal', 'delete-modal')
@@ -73,8 +61,8 @@ export default {
       this.deleteAnimalId = 0;
     },
   },
-  created() {
-   this.getAnimals();
+  mounted() {
+   this.animalsFetch();
   }
 }
 </script>
