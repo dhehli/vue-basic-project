@@ -1,10 +1,12 @@
-import express from 'express';
-import bodyParser from 'body-parser'
-import { check, validationResult } from 'express-validator';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { check, validationResult } = require( 'express-validator');
+const cors = require('cors')
 
-import database from './helpers/Database'
+const database = require('./helpers/Database');
 
 const app = express()
+app.use(cors())
 const port = process.env.PORT || 3000
 
 app.use(bodyParser.json());
@@ -31,6 +33,7 @@ app.get('/api/animal/:id', (req, res) => {
   .catch(err => res.status(500).json({err}))
 })
 
+
 app.post('/api/animal', [
   check('name').trim().isLength({ min: 1 }),
 ], (req, res) => {
@@ -41,18 +44,19 @@ app.post('/api/animal', [
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const { name, age, race, colorId } = req.body;
+  const { name, age, race } = req.body;
 
   database.query(`
     INSERT INTO animals
-    SET name = ?, age = ?, race = ?, color_id = ?`, [
+    SET name = ?, age = ?, race = ?`, [
       name,
       age,
-      race,
-      colorId
+      race
   ])
-  .then(result => {
-    return res.json(result)
+  .then(() => {
+    return res.json({
+      state: "success"
+    })
   })
   .catch(err => res.status(500).json({err}))
 })
@@ -68,19 +72,20 @@ app.put('/api/animal/:id', [
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const { name, age, race, colorId } = req.body;
+  const { name, age, race } = req.body;
 
   database.query(`
     UPDATE animals
-    SET name = ?, age = ?, race = ?, color_id = ? WHERE id = ?`, [
+    SET name = ?, age = ?, race = ? WHERE id = ?`, [
       name,
       age,
       race,
-      colorId,
       id
   ])
-  .then(result => {
-    return res.json(result)
+  .then(() => {
+    return res.json({
+      state: "success"
+    })
   })
   .catch(err => res.status(500).json({err}))
 })
