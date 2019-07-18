@@ -1,2 +1,2 @@
-require('babel-register');
+require('./babel.config.js');
 require('./server/server');
