@@ -1,16 +1,26 @@
 <template>
-  <div class="locale-changer">
-    <select v-model="$i18n.locale">
-      <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
-    </select>
-  </div>
+  <b-nav-item-dropdown text="Lang" right>
+    <b-dropdown-item 
+      v-for="(lang, i) in langs" 
+      :key="`Lang${i}`" 
+      :value="lang" 
+      @click="changeLanguage(lang)"
+    >
+      {{ lang }}
+    </b-dropdown-item>
+  </b-nav-item-dropdown>
 </template>
 
 <script>
 export default {
-  name: 'locale-changer',
+  name: "Test",
   data () {
     return { langs: ['en', 'de'] }
+  },
+  methods: {
+    changeLanguage(lang){
+      this.$i18n.locale = lang
+    }
   }
 }
 </script>

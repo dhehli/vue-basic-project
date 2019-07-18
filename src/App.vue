@@ -1,13 +1,6 @@
 <template>
   <div id="app">
-    <div>
-      <b-navbar type="dark" variant="dark">
-        <b-navbar-nav>
-            <b-nav-item to="/">Home</b-nav-item>
-            <b-nav-item to="/animal">Animals</b-nav-item>
-        </b-navbar-nav>
-      </b-navbar>
-    </div>
+    <MainNav />
     <b-container class="bv-example-row mt-5">
       <b-row>
         <b-col>
@@ -18,3 +11,13 @@
   </div>
 </template>
 
+<script>
+import MainNav from '@/components/layout/MainNav'
+
+export default {
+  name: 'App',
+  components: {
+    MainNav
+  }
+}
+</script>
