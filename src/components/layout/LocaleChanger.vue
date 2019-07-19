@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "Test",
+  name: "LocaleChanger",
   data () {
     return { langs: ['en', 'de'] }
   },

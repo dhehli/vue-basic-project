@@ -12,7 +12,7 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <Test />
+        <LocaleChanger />
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template slot="button-content">User</template>
@@ -25,11 +25,12 @@
 </template>
 
 <script>
-import Test from '@/components/layout/LocaleChanger'
+import LocaleChanger from './LocaleChanger'
 
 export default {
   name: "MainNav",
   components: {
-    Test
+    LocaleChanger
   }
 }
+</script>
