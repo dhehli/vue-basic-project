@@ -19,6 +19,7 @@
           id="name"
           v-model="animal.name"
           placeholder="Enter Name"
+          required
         ></b-form-input>
       </b-form-group>
 

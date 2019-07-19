@@ -1,3 +1,23 @@
 {
-  "message": "hallo das ist deutsch"
+  "message": "hallo das ist deutsch",
+  "animals": {
+    "form" : {
+      "button-add": "Tier hinzufügen",
+      "button-back": "Zurück",
+      "button-submit": "Speichern",
+      "button-detail": "Detail",
+      "button-edit": "Bearbeiten",
+      "button-delete": "Löschen",
+      "msg-delete": "Möchten Sie diesen Eintrag wirklich löschen?"
+    },
+    "list": {
+      "id": "#",
+      "name": "Name",
+      "age": "Alter",
+      "race": "Rase"
+    },
+    "title": {
+      "main": "Tiere"
+    }
+  }
 }

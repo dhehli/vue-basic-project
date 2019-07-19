@@ -1,20 +1,24 @@
 <template>
   <div>
-    <h1>Animals</h1>
-    <b-button class="my-4" to="/animal/add">Add Animal</b-button>
+    <h1><p>{{ $t('animals.title.main') }}</p></h1>
+    <b-button class="my-4" to="/animal/add">{{ $t('animals.form.button-add') }}</b-button>
     <b-table striped hover :fields="fields" :items="animals">
       <template slot="show_details" slot-scope="row">        
-        <b-button size="sm" class="mr-2" :to="{ path: `/animal/${row.item.id}/detail`  }">Details</b-button>
-        <b-button size="sm" variant="primary" class="mr-2" :to="{ path: `/animal/${row.item.id}/edit` }">Edit</b-button>
+        <b-button size="sm" class="mr-2" :to="{ path: `/animal/${row.item.id}/detail`  }">
+          {{ $t('animals.form.button-add') }}
+        </b-button>
+        <b-button size="sm" variant="primary" class="mr-2" :to="{ path: `/animal/${row.item.id}/edit` }">
+          {{ $t('animals.form.button-edit') }}
+        </b-button>
         <b-button size="sm" variant="danger" @click="showModal(row.item.id)">
-          Delete
+          {{ $t('animals.form.button-delete') }}
         </b-button>
       </template>
     </b-table>
 
     <!-- Info modal -->
     <b-modal id="delete-modal" @ok="handleModalOk" @hide="handleModalCancel">
-      Do you really want to delete this entry?
+        {{ $t('animals.form.msg-delete') }}
     </b-modal>
   </div>
 </template>

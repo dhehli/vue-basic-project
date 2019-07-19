@@ -1,3 +1,23 @@
 {
-  "message": "hallo das ist englisch"
+  "message": "hallo das ist englisch",
+  "animals": {
+    "form" : {
+      "button-add": "Add animal",
+      "button-back": "Back",
+      "button-submit": "Save",
+      "button-detail": "Details",
+      "button-edit": "Edit",
+      "button-delete": "Delete",
+      "msg-delete": "Do you really want to delete this entry?"
+    },
+    "list": {
+      "id": "#",
+      "name": "name",
+      "age": "age",
+      "race": "race"
+    },
+    "title": {
+      "main": "Animals"
+    }
+  }
 }
