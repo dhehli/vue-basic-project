@@ -53,7 +53,7 @@
 
 <script>
   import { mapGetters } from "vuex";
-  import { ANIMAL_FETCH, ANIMALS_FETCH_UPDATE } from '@/store/actions.type'
+  import { ANIMAL_FETCH, ANIMALS_FETCH_UPDATE } from '@/store/animals/actions.type'
 
   export default {
     name: "AnimalEditForm",

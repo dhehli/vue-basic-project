@@ -53,7 +53,7 @@
 </template>
 
 <script>
-  import { ANIMALS_FETCH_ADD } from '@/store/actions.type'
+  import { ANIMALS_FETCH_ADD } from '@/store/animals/actions.type'
 
   export default {
     name: "AnimalForm",

@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { ANIMALS_FETCH,ANIMALS_FETCH_DEL } from '@/store/actions.type'
+import { ANIMALS_FETCH,ANIMALS_FETCH_DEL } from '@/store/animals/actions.type'
 
 
 export default {

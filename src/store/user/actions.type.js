@@ -1,0 +1,1 @@
+export const REGISTER_FETCH_ADD = 'REGISTER_FETCH_ADD'

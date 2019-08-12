@@ -7,6 +7,8 @@ import AnimalAddForm from '@/components/animals/AnimalAddForm.vue'
 import AnimalEditForm from '@/components/animals/AnimalEditForm.vue'
 import AnimalDetail from '@/components/animals/AnimalDetail'
 
+import Register from '@/components/user/RegisterForm'
+
 Vue.use(Router)
 
 export default new Router({
@@ -43,6 +45,11 @@ export default new Router({
           component: AnimalEditForm
         }
       ]
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
   ]
 })

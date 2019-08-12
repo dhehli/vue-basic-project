@@ -19,5 +19,17 @@
     "title": {
       "main": "Tiere"
     }
+  },
+  "register": {
+    "title": {
+      "main": "Registrieren"
+    },
+    "form" : {
+      "salutation": "Anrede",
+      "firstname": "Vorname",
+      "lastname": "Nachname",
+      "mail": "E-Mail",
+      "password": "Password"
+    }
   }
 }

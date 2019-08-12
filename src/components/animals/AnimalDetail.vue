@@ -18,7 +18,7 @@
 
 <script>
   import { mapGetters } from "vuex";
-  import { ANIMAL_FETCH } from '@/store/actions.type'  
+  import { ANIMAL_FETCH } from '@/store/animals/actions.type'  
 
   export default {
     name: "AnimalDetail",

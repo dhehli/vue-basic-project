@@ -8,6 +8,7 @@
       <b-navbar-nav>
           <b-nav-item to="/" exact>Home</b-nav-item>
           <b-nav-item to="/animal">Animals</b-nav-item>
+          <b-nav-item to="/register">Register</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
