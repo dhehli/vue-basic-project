@@ -22,7 +22,10 @@
   },
   "register": {
     "title": {
-      "main": "Registrieren"
+      "register": "Registrieren",
+      "login": "Login",
+      "forgotpassword": "Passwort vergessen",
+      "reset": "Passwort zurücksetzen"
     },
     "form" : {
       "salutation": "Anrede",

@@ -1,10 +1,7 @@
 <template>
   <div>
-    <h1>{{ $t('register.title.register') }}</h1>
+    <h1>{{ $t('register.title.reset') }}</h1>
 
-    <b-alert variant="success" v-if="isDone" show>
-     user created
-    </b-alert>
 
     <div v-for="error in errors" v-bind:key="error.msg">
       <b-alert variant="danger" show>
@@ -13,44 +10,22 @@
     </div>
 
     <b-form @submit="onSubmit" v-if="showForm">
-      <b-form-group id="salutation" label="Anrede" label-for="salutation">
-        <b-form-select v-model="user.salutation" :options="salutations"></b-form-select>
-      </b-form-group>
-
-      <b-form-group id="firstname" label="Vorname" label-for="firstname">
-        <b-form-input
-          id="firstname"
-          v-model="user.firstname"
-          placeholder="Enter firstname"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="lastname" label="Name" label-for="lastname">
-        <b-form-input
-          id="lastname"
-          v-model="user.lastname"
-          placeholder="Enter lastname"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="email" label="E-mail" label-for="email">
-        <b-form-input
-          id="email"
-          v-model="user.email"
-          type="email"
-          placeholder="Enter e-mail"
-          required
-        ></b-form-input>
-      </b-form-group>
-
       <b-form-group id="password" label="Password" label-for="password">
         <b-form-input
           id="password"
           v-model="user.password"
           type="password"          
           placeholder="Enter password"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="matchpassword" label="Password confirm" label-for="matchpassword">
+        <b-form-input
+          id="matchpassword"
+          v-model="user.matchpassword"
+          type="password"          
+          placeholder="Confirm password"
           required
         ></b-form-input>
       </b-form-group>
@@ -71,23 +46,16 @@
   import { REGISTER_FETCH_ADD } from '@/store/user/actions.type'
 
   export default {
-    name: "RegisterForm",
+    name: "ResetPassword",
     data() {
       return {
         showForm: true,
         isSubmitting: false,
         isDone: false,
         errors: [],
-        salutations: [
-          { value: 1, text: 'Herr' },
-          { value: 2, text: 'Frau' }
-        ],
         user: {
-          salutation: 1,
-          firstname: '',
-          lastname: '',
-          email: '',
-          password: ''
+          password: '',
+          matchpassword: ''
         },
       }
     },

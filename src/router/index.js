@@ -8,6 +8,9 @@ import AnimalEditForm from '@/components/animals/AnimalEditForm.vue'
 import AnimalDetail from '@/components/animals/AnimalDetail'
 
 import Register from '@/components/user/RegisterForm'
+import Login from '@/components/user/LoginForm'
+import ForgotPassword from '@/components/user/ForgotPasswordForm'
+import ResetPassword from '@/components/user/ResetPasswordForm'
 
 Vue.use(Router)
 
@@ -50,6 +53,21 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/forgotpassword',
+      name: 'Forgot Password',
+      component: ForgotPassword
+    },
+    {
+      path: '/resetpassword/:hash',
+      name: 'Reset Password',
+      component: ResetPassword
     },
   ]
 })

@@ -9,6 +9,9 @@
           <b-nav-item to="/" exact>Home</b-nav-item>
           <b-nav-item to="/animal">Animals</b-nav-item>
           <b-nav-item to="/register">Register</b-nav-item>
+          <b-nav-item to="/login">Login</b-nav-item>
+          <b-nav-item to="/forgotpassword">Forgotpassword</b-nav-item>
+          <b-nav-item to="/resetpassword/123123">Resetpassword</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
