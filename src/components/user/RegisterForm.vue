@@ -22,6 +22,7 @@
           id="firstname"
           v-model="user.firstname"
           placeholder="Enter firstname"
+          required
         ></b-form-input>
       </b-form-group>
 
@@ -30,6 +31,7 @@
           id="lastname"
           v-model="user.lastname"
           placeholder="Enter lastname"
+          required
         ></b-form-input>
       </b-form-group>
 
@@ -39,6 +41,7 @@
           v-model="user.email"
           type="email"
           placeholder="Enter e-mail"
+          required
         ></b-form-input>
       </b-form-group>
 
@@ -48,6 +51,7 @@
           v-model="user.password"
           type="password"          
           placeholder="Enter password"
+          required
         ></b-form-input>
       </b-form-group>
 
