@@ -28,7 +28,7 @@ export const actions = {
   async [REGISTER_FETCH_ADD] (context, payload){
     const { salutation, firstname, lastname, email, password } = payload;
 
-    await axios.post('http://localhost:4000/netlive', {
+    await axios.post('http://localhost:3000/api/gql', {
       query: `mutation createAddress($salutation: ID!, $firstname: String!, $lastname: String!, $email: String!, $password: String!) {
         createAddress(input: {salutation_id: $salutation, firstname: $firstname, lastname: $lastname, email: $email, password: $password}) {
           address_id

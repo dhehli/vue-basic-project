@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { check, validationResult } = require( 'express-validator');
 const cors = require('cors')
+const http = require('http');
 
 const database = require('./helpers/Database');
+const gqlconnect = require('./helpers/gqlConnect');
+
 
 const app = express()
 app.use(cors())
@@ -11,6 +14,38 @@ const port = process.env.PORT || 3000
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
+
+
+app.post('/api/gql', (req, res) => {
+  const data = req.body;
+
+  gqlconnect('/netlive', data).then((response) => {
+    res.status(200).json(response)
+  }).catch(err => {
+    res.status(500).json(err)
+  })  
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 app.get('/api/animal', (req, res) => {
