@@ -28,7 +28,7 @@ export const actions = {
   async [REGISTER_FETCH_ADD] (context, payload){
     const { salutation, firstname, lastname, email, password } = payload;
 
-    await axios.post('http://localhost:3000/api/gql', {
+    await axios.post('http://localhost:3000/api/register', {
       query: `mutation createAddress($salutation: ID!, $firstname: String!, $lastname: String!, $email: String!, $password: String!) {
         createAddress(input: {salutation_id: $salutation, firstname: $firstname, lastname: $lastname, email: $email, password: $password}) {
           address_id
@@ -37,6 +37,8 @@ export const actions = {
           email
         }
       }`,
+      email, /* TODO: Email is in variables too this is ugly but passwor.js searchs on the root of the object*/
+      password,
       variables: {
         salutation,
         firstname,

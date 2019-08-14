@@ -1,30 +1,42 @@
+const config = require('config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { check, validationResult } = require( 'express-validator');
 const cors = require('cors')
-const http = require('http');
+const passport = require('passport');
+const session = require('express-session');
+const  cookieParser = require('cookie-parser');
 
 const database = require('./helpers/Database');
 const gqlconnect = require('./helpers/gqlConnect');
+const USERPERMISSION = require('./helpers/Userpermission')
 
+const publicRoutes = require('./routes/public/index')
+const memberRoutes = require('./routes/member/index')
+const adminRoutes = require('./routes/admin/index')
+const superAdminRoutes = require('./routes/superadmin/index')
 
 const app = express()
 app.use(cors())
 const port = process.env.PORT || 3000
 
+app.use(cookieParser()); // read cookies (needed for auth
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
 
+app.use(express.static('public')); // Folder for public files
 
-app.post('/api/gql', (req, res) => {
-  const data = req.body;
+// required for passport
+app.use(session(config.get("session")))
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
-  gqlconnect('/netlive', data).then((response) => {
-    res.status(200).json(response)
-  }).catch(err => {
-    res.status(500).json(err)
-  })  
-})
+app.use(publicRoutes);
+/*
+app.use('/member', isMember, memberRoutes);
+app.use('/admin', isAdmin, adminRoutes);
+app.use('/superadmin', isSuperAdmin, superAdminRoutes);
+*/
 
 
 
