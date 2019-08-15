@@ -1,19 +1,49 @@
 
 const express = require('express');
-const gqlconnect = require('../../helpers/gqlConnect');
-const passport = require('passport')
+const bcrypt = require('bcrypt');
 const router = express.Router();
-require('../../helpers/passport');
+const { check, validationResult } = require('express-validator');
 
-router.post('/api/register', passport.authenticate('local-signup', {
-}), (req, res) => {
-  const data = req.body;
+const gqlconnect = require('../../helpers/gqlConnect');
+
+
+router.post('/api/register', [
+  check('variables.email').isEmail(),
+  check('variables.password').isLength({ min: 3 }).withMessage('Password must be at least 3 digits')
+], async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   
-  gqlconnect('/netlive', data).then((response) => {
-    res.status(200).json(response)
-  }).catch(err => {
-    res.status(500).json(err)
-  })  
+  const data = req.body;
+  let { email, password } = data.variables;
+
+  const emailLookupQuery = {
+    query: `query($email: String!){
+      getAddress(input: {email: $email}){
+        nodes{
+          address_id
+        }
+        totalCount
+      }
+    }`,
+    variables: { email }
+  }
+
+  const emailRes = await gqlconnect('/netlive', emailLookupQuery);
+  const isEmailTaken = !!emailRes.data.getAddress.totalCount;
+
+  if(isEmailTaken){
+    return res.status(422).json({ errors: [{msg: "Email is already taken"}] });
+  }
+
+  const cryptedPassword = bcrypt.hashSync(password, 4)
+  data.variables.password = cryptedPassword;
+
+  const storeAddressRes = await gqlconnect('/netlive', data);
+  return res.status(200).json(storeAddressRes)
 })
 
 module.exports = router;

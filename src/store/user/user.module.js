@@ -37,8 +37,6 @@ export const actions = {
           email
         }
       }`,
-      email, /* TODO: Email is in variables too this is ugly but passwor.js searchs on the root of the object*/
-      password,
       variables: {
         salutation,
         firstname,
