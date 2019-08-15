@@ -31,9 +31,6 @@ export const actions = {
     await axios.post('http://localhost:3000/api/register', {
       query: `mutation createAddress($salutation: ID!, $firstname: String!, $lastname: String!, $email: String!, $password: String!) {
         createAddress(input: {salutation_id: $salutation, firstname: $firstname, lastname: $lastname, email: $email, password: $password}) {
-          address_id
-          firstname
-          lastname
           email
         }
       }`,

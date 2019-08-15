@@ -1,13 +1,15 @@
 
 const express = require('express');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const gqlconnect = require('../../helpers/gqlConnect');
-const asyncMiddleware = require('../../helpers/asyncMiddleware')
+const asyncMiddleware = require('../../helpers/asyncMiddleware');
 
 const lookupTakenMail = async (email) => {
+  console.log("email", email)
   emailLookupQuery = {
     query: `query($email: String!){
       getAddress(input: {email: $email}){
@@ -16,13 +18,16 @@ const lookupTakenMail = async (email) => {
     }`,
     variables: { email }
   }
+
+  console.log("email LookupQuery", emailLookupQuery)
+
   const emailRes = await gqlconnect('/netlive', emailLookupQuery);
+  console.log("emailRes",emailRes)
   return !!emailRes.data.getAddress.totalCount;
 }
 
-router.post('/api/register', [
-  check('variables.email').trim().isEmail(),
-  check('variables.password').trim().isLength({ min: 3 }).withMessage('Password must be at least 3 digits')
+router.post('/api/forgotpassword', [
+  check('variables.email').isEmail(),
 ], asyncMiddleware(async (req, res) => {
   const errors = validationResult(req);
 
@@ -31,18 +36,16 @@ router.post('/api/register', [
   }
   
   const data = req.body;
-  let { email, password } = data.variables;
+  let { email } = data.variables;
 
   const isEmailTaken = await lookupTakenMail(email)
 
-  if(isEmailTaken){
-    return res.status(422).json({ errors: [{msg: "Email is already taken"}] });
+  if(!isEmailTaken){
+    return res.status(422).json({ errors: [{msg: "Email not found"}] });
   }
 
-  const cryptedPassword = bcrypt.hashSync(password, 4)
-  data.variables.password = cryptedPassword;
-
-  const storeAddressRes = await gqlconnect('/netlive', data);
+  
+  const storeForgotPassword = await gqlconnect('/netlive', data);
   return res.status(200).json(storeAddressRes);
 }))
 
