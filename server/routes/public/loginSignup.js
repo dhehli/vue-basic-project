@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 
 const gqlconnect = require('../../helpers/gqlConnect');
 const asyncMiddleware = require('../../helpers/asyncMiddleware')
+const passport = require('../../helpers/passport')
 
 const lookupTakenMail = async (email) => {
   emailLookupQuery = {
@@ -45,5 +46,10 @@ router.post('/api/register', [
   const storeAddressRes = await gqlconnect('/netlive', data);
   return res.status(200).json(storeAddressRes);
 }))
+
+router.post('/api/login', passport.authenticate('local-login', {}), (req, res) => {
+  console.log("done post")
+})
+
 
 module.exports = router;

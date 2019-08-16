@@ -19,8 +19,6 @@ const lookupTakenMail = async (email) => {
     variables: { email }
   }
 
-  console.log("email LookupQuery", emailLookupQuery)
-
   const emailRes = await gqlconnect('/netlive', emailLookupQuery);
   console.log("emailRes",emailRes)
   return !!emailRes.data.getAddress.totalCount;
@@ -38,15 +36,18 @@ router.post('/api/forgotpassword', [
   const data = req.body;
   let { email } = data.variables;
 
+  console.log("email", email)
+
   const isEmailTaken = await lookupTakenMail(email)
 
   if(!isEmailTaken){
     return res.status(422).json({ errors: [{msg: "Email not found"}] });
   }
 
+  console.log("data")
   
   const storeForgotPassword = await gqlconnect('/netlive', data);
-  return res.status(200).json(storeAddressRes);
+  return res.status(200).json(storeForgotPassword);
 }))
 
 module.exports = router;

@@ -2,10 +2,7 @@
 const passport = require('passport')
 // load all the things we need
 var LocalStrategy = require('passport-local').Strategy;
-
-// load up the user model
-
-
+const gqlconnect = require('./gqlConnect');
 // expose this function to our app using module.exports
 
 // =========================================================================
@@ -34,71 +31,6 @@ function updateLastLogin(userId){
 }
 
 // =========================================================================
-// LOCAL SIGNUP ============================================================
-// =========================================================================
-// we are using named strategies since we have one for login and one for signup
-// by default, if there was no name, it would just be called 'local'
-
-passport.use('local-signup', new LocalStrategy({
-  // by default, local strategy uses username and password, we will override with email
-  usernameField: 'email',
-  passwordField: 'password',
-  passReqToCallback: true // allows us to pass back the entire request to the callback
-}, (req, email, password, done) => {
-  console.log(req.body, email, password)
-
-  const { salutation, firstname, lastname } = req.body;
-
-  const trimmedSalutation = salutation && salutation.trim()
-  const trimmedFirstname = firstname && firstname.trim()
-  const trimmedLastname = lastname && lastname.trim()
-
-  if(!trimmedSalutation || trimmedSalutation.length === 0){
-    return done(null, false, req.flash('signupMessage', 'No Salutation'));
-  }
-
-  if(!trimmedFirstname || trimmedFirstname.length === 0){
-    return done(null, false, req.flash('signupMessage', 'No Firstname'));
-  }
-
-  if(!trimmedLastname || trimmedLastname.length === 0){
-    return done(null, false, req.flash('signupMessage', 'No Lastname'));
-  }
-
-  database.query("SELECT * FROM v_user WHERE email = ?", [email]).then(rows => {
-    if (rows.length) {
-      return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-    } else {
-      // if there is no user with that email
-      // create the user
-      const newUserMysql = {
-        salutation_id: trimmedSalutation,
-        firstname: trimmedFirstname,
-        lastname: trimmedLastname,
-        email: email,
-        password: bcrypt.hashSync(password, null, null), // use the generateHash function in our user model
-        last_login: new Date().toISOString().slice(0, 19).replace('T', ' '),
-        userpermission_id: 1
-      };
-
-      const insertQuery = "INSERT INTO user ( salutation_id, firstname, lastname, email, password, last_login ) values (?,?,?,?,?,?)";
-
-      database.query(insertQuery, [
-        newUserMysql.salutation_id,
-        newUserMysql.firstname,
-        newUserMysql.lastname,
-        newUserMysql.email,
-        newUserMysql.password,
-        newUserMysql.last_login,
-      ]).then(rows => {
-        newUserMysql.user_id = rows.insertId;
-        return done(null, newUserMysql);
-      }).catch(err => done(null, newUserMysql));
-    }
-  }).catch(err => done(err))
-}));
-
-// =========================================================================
 // LOCAL LOGIN =============================================================
 // =========================================================================
 // we are using named strategies since we have one for login and one for signup
@@ -109,7 +41,25 @@ passport.use('local-login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true // allows us to pass back the entire request to the callback
-}, (req, email, password, done) => { // callback with email and password from our form
+}, async (req, email, password, done) => { // callback with email and password from our form
+  console.log("local login", email, password)
+
+  const getUserQuery = {
+    query: `query($email: String!){
+      getAddress(input: {email: $email}){
+        nodes{
+          address_id
+          email
+          password
+        }        
+      }
+    }`,
+    variables: { email }
+  }
+
+  const user = await gqlconnect('/netliveprivate', getUserQuery);
+  console.log("user", user)
+  /*
   database.query("SELECT * FROM v_user WHERE email = ?", [email])
   .then(rows => {
     if (!rows.length)
@@ -129,7 +79,7 @@ passport.use('local-login', new LocalStrategy({
     // all is well, return successful user
     return done(null, rows[0]);
   })
-  .catch(err => done(err))
+  .catch(err => done(err))*/
 }));
 
 module.exports = passport;

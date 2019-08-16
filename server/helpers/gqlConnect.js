@@ -10,18 +10,18 @@ const gqlconnect = (path, data) => {
   const stringifiedData = JSON.stringify(data)
 
   return new Promise((resolve, reject) => {
-    const httpreq  = http.request(options, function (response) {
+    const httpreq  = http.request(options, response => {
       let serverResponse = "";
   
-      response.on("data", function (chunk) {
+      response.on("data", chunk => {
         serverResponse += chunk;
       });
   
-      response.on("end", function () {
+      response.on("end", () => {
         resolve(JSON.parse(serverResponse))        
       });
   
-      response.on("error", function(err) {
+      response.on("error", err => {
         reject(err)
       })
   
