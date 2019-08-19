@@ -5,11 +5,12 @@ import {
 } from './mutations.type.js'
 
 import { 
-  REGISTER_FETCH_ADD
+  REGISTER_FETCH_ADD,
+  LOGIN_FETCH_ADD
 } from './actions.type.js'
 
 const initialState = {
-  user: {},
+  users: []
 }
 
 export const state = { ...initialState }
@@ -31,7 +32,7 @@ export const actions = {
     await axios.post('http://localhost:3000/api/register', {
       query: `mutation createAddress($salutation: ID!, $firstname: String!, $lastname: String!, $email: String!, $password: String!) {
         createAddress(input: {salutation_id: $salutation, firstname: $firstname, lastname: $lastname, email: $email, password: $password}) {
-          email
+         email          
         }
       }`,
       variables: {
@@ -43,6 +44,11 @@ export const actions = {
       }
     })
   },
+  async [LOGIN_FETCH_ADD] (context, payload){
+    const { email, password } = payload;
+
+
+  }
 }
 
 export default {

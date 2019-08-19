@@ -47,8 +47,20 @@ router.post('/api/register', [
   return res.status(200).json(storeAddressRes);
 }))
 
-router.post('/api/login', passport.authenticate('local-login', {}), (req, res) => {
-  console.log("done post")
+router.post('/api/login', (req, res, next) => {
+  passport.authenticate("local-login", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      return res.status(400).json({ errors: [{msg: info}] });
+    }
+
+    req.login(user, err => {
+      res.send("Logged in");
+    });
+  })(req, res, next);
 })
 
 

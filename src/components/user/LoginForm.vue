@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import { REGISTER_FETCH_ADD } from '@/store/user/actions.type'
+  import { LOGIN_FETCH_ADD } from '@/store/user/actions.type'
 
   export default {
     name: "RegisterForm",
@@ -65,7 +65,7 @@
         this.isSubmitting = true;
         this.errors = [];
 
-        this.$store.dispatch(REGISTER_FETCH_ADD, this.user)
+        this.$store.dispatch(LOGIN_FETCH_ADD, this.user)
         .then(() => {
           this.isDone = true;
         })

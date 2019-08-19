@@ -1,5 +1,6 @@
 // config/passport.js
 const passport = require('passport')
+const bcrypt = require('bcrypt')
 // load all the things we need
 var LocalStrategy = require('passport-local').Strategy;
 const gqlconnect = require('./gqlConnect');
@@ -12,13 +13,33 @@ const gqlconnect = require('./gqlConnect');
 // passport needs ability to serialize and unserialize users out of session
 
 // used to serialize the user for the session
-passport.serializeUser((user, done) => done(null, user.user_id));
+passport.serializeUser((user, done) => {
+  done(null, user.data.getAddress.nodes[0].address_id)
+});
 
 // used to deserialize the user
-passport.deserializeUser((id, done) => {
-  database.query("SELECT * FROM v_user WHERE user_id = ? ", [id])
-  .then(rows => done(null,rows[0]))
-  .catch(err => done(err,null))
+passport.deserializeUser(async (id, done) => {
+  console.log("deserializeUser", id, done)
+
+  const getUserById= {
+    query: `query($address_id: ID!){
+      getAddress(input: {address_id: $address_id}){
+        nodes{
+          address_id
+          email
+        }
+        totalCount      
+      }
+    }`,
+    variables: { address_id: id }
+  }
+
+  try{
+    const user = await gqlconnect('/netliveprivate', getUserById);
+    return done(null, user.data.getAddress.nodes[0])
+  }catch (e) {
+    return done(e,null)
+  }
 });
 
 //Function to update last_login
@@ -42,7 +63,6 @@ passport.use('local-login', new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true // allows us to pass back the entire request to the callback
 }, async (req, email, password, done) => { // callback with email and password from our form
-  console.log("local login", email, password)
 
   const getUserQuery = {
     query: `query($email: String!){
@@ -51,14 +71,28 @@ passport.use('local-login', new LocalStrategy({
           address_id
           email
           password
-        }        
+        }
+        totalCount      
       }
     }`,
     variables: { email }
   }
 
   const user = await gqlconnect('/netliveprivate', getUserQuery);
-  console.log("user", user)
+
+  const userFound = !!user.data.getAddress.totalCount
+
+  if(!userFound){
+    return done(null, false, {message: "User not Found"});
+  }
+
+  const dbPassword = user.data.getAddress.nodes[0].password;
+
+  if (!bcrypt.compareSync(password, dbPassword))
+    return done(null, false, {message: "Wrong password"}); // create the loginMessage and save it to session as flashdata
+
+  return done(null, user);
+  
   /*
   database.query("SELECT * FROM v_user WHERE email = ?", [email])
   .then(rows => {
