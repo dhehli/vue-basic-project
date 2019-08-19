@@ -47,7 +47,10 @@ export const actions = {
   async [LOGIN_FETCH_ADD] (context, payload){
     const { email, password } = payload;
 
-
+    await axios.post('http://localhost:3000/api/login', {
+      email,
+      password
+    })
   }
 }
 

@@ -5,7 +5,7 @@
 
     <div v-for="error in errors" v-bind:key="error.msg">
       <b-alert variant="danger" show>
-        {{error.msg}} for field {{error.param}}
+        {{error.msg.message}} 
       </b-alert>
     </div>
 
