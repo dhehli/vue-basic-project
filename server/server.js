@@ -8,7 +8,6 @@ const session = require('express-session');
 const  cookieParser = require('cookie-parser');
 
 const database = require('./helpers/Database');
-const gqlconnect = require('./helpers/gqlConnect');
 const USERPERMISSION = require('./helpers/Userpermission')
 
 const publicRoutes = require('./routes/public/index')
@@ -31,12 +30,41 @@ app.use(session(config.get("session")))
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
+// middleware
+// route middleware to make sure a user is logged in
+const isMember = (req, res, next) => {
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+    return next();
+  // if they aren't redirect them to the home page
+  res.redirect('/');
+}
+
+// middleware
+// route middleware to make sure a user has admin right
+const isAdmin = (req, res, next) => {
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated() && (req.user.userpermission_id === USERPERMISSION.admin || req.user.userpermission_id === USERPERMISSION.superadmin))
+    return next();
+  // if they aren't redirect them to the home page
+  res.redirect('/');
+}
+
+const isSuperAdmin = (req, res, next) => {
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated() && req.user.userpermission_id === USERPERMISSION.superadmin)
+    return next();
+  // if they aren't redirect them to the home page
+  res.redirect('/');
+}
+
 app.use(publicRoutes);
-/*
 app.use('/member', isMember, memberRoutes);
+/*
 app.use('/admin', isAdmin, adminRoutes);
 app.use('/superadmin', isSuperAdmin, superAdminRoutes);
 */
+
 
 
 

@@ -19,8 +19,6 @@ passport.serializeUser((user, done) => {
 
 // used to deserialize the user
 passport.deserializeUser(async (id, done) => {
-  console.log("deserializeUser", id, done)
-
   const getUserById= {
     query: `query($address_id: ID!){
       getAddress(input: {address_id: $address_id}){
@@ -43,7 +41,8 @@ passport.deserializeUser(async (id, done) => {
 });
 
 //Function to update last_login
-function updateLastLogin(userId){
+const updateLastLogin = async userId => {
+  console.log("userId", userId)
   const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
   database.query('UPDATE user SET last_login = ? WHERE user_id = ?', [currentDate, userId])
@@ -78,42 +77,26 @@ passport.use('local-login', new LocalStrategy({
     variables: { email }
   }
 
-  const user = await gqlconnect('/netliveprivate', getUserQuery);
+  try{
+    const user = await gqlconnect('/netliveprivate', getUserQuery);
+    const userFound = !!user.data.getAddress.totalCount
 
-  const userFound = !!user.data.getAddress.totalCount
-
-  if(!userFound){
-    return done(null, false, {message: "User not Found"});
-  }
-
-  const dbPassword = user.data.getAddress.nodes[0].password;
-
-  if (!bcrypt.compareSync(password, dbPassword))
-    return done(null, false, {message: "Wrong password"}); // create the loginMessage and save it to session as flashdata
-
-  return done(null, user);
+    if(!userFound){
+      return done(null, false, {message: "User not Found"});
+    }
   
-  /*
-  database.query("SELECT * FROM v_user WHERE email = ?", [email])
-  .then(rows => {
-    if (!rows.length)
-      return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+    const dbPassword = user.data.getAddress.nodes[0].password;
+    const userId = user.data.getAddress.nodes[0].address_id
+  
+    if (!bcrypt.compareSync(password, dbPassword))
+      return done(null, false, {message: "Wrong password"}); // create the loginMessage and save it to session as flashdata
+    
+    //updateLastLogin(userId) // TODO: Update Date doesnt work
 
-    // If user has userstate to blocked
-    if(rows[0].userstate_id === 2)
-      return done(null, false, req.flash('loginMessage', 'You have no acces contact the website administrator')); // req.flash is the way to set flashdata using connect-flash
-
-    // if the user is found but the password is wrong
-    if (!bcrypt.compareSync(password, rows[0].password))
-      return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
-
-    // update lastlogin
-    updateLastLogin(rows[0].user_id)
-
-    // all is well, return successful user
-    return done(null, rows[0]);
-  })
-  .catch(err => done(err))*/
+    return done(null, user);
+  } catch (e) {
+    return done(e,null)
+  }  
 }));
 
 module.exports = passport;
