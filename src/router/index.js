@@ -74,8 +74,14 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'Dashboard',
-      component: Dashboard
-    },
-    
+      component: Dashboard,
+      beforeEnter: (to, from, next) => {
+        if(Vue.prototype.$session.exists()) {
+          next(); // allow to enter route
+        } else{
+          next('/login'); // go to '/login';
+        }
+      }
+    },    
   ]
 })
