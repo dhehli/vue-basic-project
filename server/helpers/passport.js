@@ -107,17 +107,17 @@ passport.use('local-login', new LocalStrategy({
 }));
 
 passport.use('jwt', new JWTStrategy({
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.get("session.secret")
-},(jwtPayload, cb) => {
-  const { address_id } = jwtPayload
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: config.get("session.secret")
+  },(jwtPayload, cb) => {
+    const { address_id } = jwtPayload
 
-  if(address_id){
-    return cb(null, jwtPayload);
+    if(address_id){
+      return cb(null, jwtPayload);
+    }
+
+    return cb(null);
   }
-
-  return cb(null);
-}
 ));
 
 module.exports = passport;

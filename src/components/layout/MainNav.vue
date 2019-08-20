@@ -21,7 +21,7 @@
           <!-- Using 'button-content' slot -->
           <template slot="button-content">User</template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+          <b-dropdown-item v-on:click="onLogout">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -30,11 +30,24 @@
 
 <script>
 import LocaleChanger from './LocaleChanger'
+import router from '@/router'
+import { LOGOUT_FETCH } from '@/store/user/actions.type'
 
 export default {
   name: "MainNav",
   components: {
     LocaleChanger
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch(LOGOUT_FETCH)
+      .then(() => {
+        router.push('/')
+      })
+      .catch(err => {
+        console.log("err", err)
+      })     
+    }
   }
 }
 </script>

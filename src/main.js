@@ -21,7 +21,6 @@ Vue.use(VueSession, options)
 
 Vue.config.productionTip = false
 
-
 new Vue({
   router,
   store,

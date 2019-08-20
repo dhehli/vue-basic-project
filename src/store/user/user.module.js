@@ -1,31 +1,38 @@
-import axios from 'axios'
-import Vue from 'vue'
+import axios from '@/helpers/axios'
 import router from '@/router'
+import Vue from 'vue'
 
 import { 
-  TEST,
+  SET_TOKEN,
+  DESTROY_TOKEN
 } from './mutations.type.js'
 
 import { 
   REGISTER_FETCH_ADD,
-  LOGIN_FETCH_ADD
+  LOGIN_FETCH_ADD,
+  LOGOUT_FETCH
 } from './actions.type.js'
 
 
 const initialState = {
-  user: {
-  }
+  user: { }
 }
 
 export const state = { ...initialState }
 
 const getters = {
-
+  isAuthenticated(){
+    return Vue.prototype.$session.exists();
+  },
 }
 
 export const mutations = {
-  [TEST] (state, payload) {
-    state.animals = payload;
+  [SET_TOKEN] (state, token) {
+    Vue.prototype.$session.start()
+    Vue.prototype.$session.set('jwt', token)
+  },
+  [DESTROY_TOKEN] () {
+    Vue.prototype.$session.destroy()
   },
 }
 
@@ -56,13 +63,13 @@ export const actions = {
       password
     })
 
-
-    if (response.status === 200 && 'token' in response.data) {
-      Vue.prototype.$session.start()
-      Vue.prototype.$session.set('jwt', response.data.token)
-      
+    if(response.status === 200 && response.data && response.data.token){
+      context.commit(SET_TOKEN, response.data.token)
       router.push('/dashboard')
     }
+  },
+  async [LOGOUT_FETCH] (context){
+    context.commit(DESTROY_TOKEN)
   }
 }
 
