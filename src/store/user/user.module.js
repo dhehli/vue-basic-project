@@ -1,4 +1,6 @@
 import axios from 'axios'
+import Vue from 'vue'
+import router from '@/router'
 
 import { 
   TEST,
@@ -9,8 +11,10 @@ import {
   LOGIN_FETCH_ADD
 } from './actions.type.js'
 
+
 const initialState = {
-  users: []
+  user: {
+  }
 }
 
 export const state = { ...initialState }
@@ -47,10 +51,18 @@ export const actions = {
   async [LOGIN_FETCH_ADD] (context, payload){
     const { email, password } = payload;
 
-    await axios.post('http://localhost:3000/api/login', {
+    const response = await axios.post('http://localhost:3000/api/login', {
       email,
       password
     })
+
+
+    if (response.status === 200 && 'token' in response.data) {
+      Vue.prototype.$session.start()
+      Vue.prototype.$session.set('jwt', response.data.token)
+      
+      router.push('/dashboard')
+    }
   }
 }
 

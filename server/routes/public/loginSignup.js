@@ -1,6 +1,8 @@
 
 const express = require('express');
 const bcrypt = require('bcrypt');
+const config = require('config');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
@@ -48,7 +50,7 @@ router.post('/api/register', [
 }))
 
 router.post('/api/login', (req, res, next) => {
-  passport.authenticate("local-login", (err, user, info) => {
+  passport.authenticate("local-login", {session: false}, (err, user, info) => {
     if (err) {
       return next(err);
     }
@@ -57,8 +59,10 @@ router.post('/api/login', (req, res, next) => {
       return res.status(400).json({ errors: [{msg: info}] });
     }
 
-    req.login(user, err => {
-      res.send("Logged in");
+    req.login(user, {session: false}, (err) => {
+      const { address_id, email, userpermission_id } = user.data.getAddress.nodes[0]
+      const token = jwt.sign({address_id, email, userpermission_id}, config.get("session.secret"));
+      res.json({token});
     });
   })(req, res, next);
 })

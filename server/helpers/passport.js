@@ -1,9 +1,15 @@
 // config/passport.js
 const passport = require('passport')
 const bcrypt = require('bcrypt')
-// load all the things we need
+const config = require('config')
+
 var LocalStrategy = require('passport-local').Strategy;
+const passportJWT = require("passport-jwt");
+const JWTStrategy   = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+
 const gqlconnect = require('./gqlConnect');
+
 // expose this function to our app using module.exports
 
 // =========================================================================
@@ -70,6 +76,7 @@ passport.use('local-login', new LocalStrategy({
           address_id
           email
           password
+          userpermission_id
         }
         totalCount      
       }
@@ -98,5 +105,19 @@ passport.use('local-login', new LocalStrategy({
     return done(e,null)
   }  
 }));
+
+passport.use('jwt', new JWTStrategy({
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: config.get("session.secret")
+},(jwtPayload, cb) => {
+  const { address_id } = jwtPayload
+
+  if(address_id){
+    return cb(null, jwtPayload);
+  }
+
+  return cb(null);
+}
+));
 
 module.exports = passport;

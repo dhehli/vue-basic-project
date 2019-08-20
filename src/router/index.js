@@ -12,6 +12,8 @@ import Login from '@/components/user/LoginForm'
 import ForgotPassword from '@/components/user/ForgotPasswordForm'
 import ResetPassword from '@/components/user/ResetPasswordForm'
 
+import Dashboard from '@/components/dashboard/Home'
+
 Vue.use(Router)
 
 export default new Router({
@@ -69,5 +71,11 @@ export default new Router({
       name: 'Reset Password',
       component: ResetPassword
     },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard
+    },
+    
   ]
 })

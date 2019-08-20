@@ -2,8 +2,7 @@
   <div>
     <h1>{{ $t('register.title.login') }}</h1>
 
-
-    <div v-for="error in errors" v-bind:key="error.msg">
+    <div v-for="error in errors" v-bind:key="error.msg.message">
       <b-alert variant="danger" show>
         {{error.msg.message}} 
       </b-alert>
@@ -46,7 +45,7 @@
   import { LOGIN_FETCH_ADD } from '@/store/user/actions.type'
 
   export default {
-    name: "RegisterForm",
+    name: "LoginForm",
     data() {
       return {
         showForm: true,
@@ -70,6 +69,7 @@
           this.isDone = true;
         })
         .catch(err => {
+          console.log("err", err)
           this.errors = err.response.data.errors;
         })
         .finally(()=> {

@@ -59,7 +59,7 @@ const isSuperAdmin = (req, res, next) => {
 }
 
 app.use(publicRoutes);
-app.use('/member', isMember, memberRoutes);
+app.use('/member', passport.authenticate('jwt', {session: false}), isMember, memberRoutes);
 /*
 app.use('/admin', isAdmin, adminRoutes);
 app.use('/superadmin', isSuperAdmin, superAdminRoutes);
