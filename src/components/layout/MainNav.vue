@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import LocaleChanger from './LocaleChanger'
 import router from '@/router'
 import { LOGOUT_FETCH } from '@/store/user/actions.type'
@@ -48,10 +47,7 @@ export default {
       .catch(err => {
         console.log("err", err)
       })     
-    }
-  },
-  computed: {
-    ...mapGetters(['isAuthenticated'])
-  },
+    },    
+  }
 }
 </script>

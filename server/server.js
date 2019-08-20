@@ -52,10 +52,8 @@ const isSuperAdmin = (req, res, next) => {
 
 app.use(publicRoutes);
 app.use('/member', passport.authenticate('jwt', {session: false}), isMember, memberRoutes);
-/*
-app.use('/admin', isAdmin, adminRoutes);
-app.use('/superadmin', isSuperAdmin, superAdminRoutes);
-*/
+app.use('/admin', passport.authenticate('jwt', {session: false}), isAdmin, adminRoutes);
+app.use('/superadmin', passport.authenticate('jwt', {session: false}), isSuperAdmin, superAdminRoutes);
 
 
 
