@@ -1,9 +1,8 @@
 import axios from 'axios'
-import Vue from 'vue'
+import {store} from '@/store'
 
 axios.interceptors.request.use(config => {
-    const getToken = Vue.prototype.$session.getAll()
-    const token = getToken.jwt;
+    const token = store.state.user.user.token;
 
     if (token) {
       config.headers['Authorization'] = `Bearer ${ token }`;
