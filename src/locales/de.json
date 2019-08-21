@@ -25,7 +25,8 @@
       "register": "Registrieren",
       "login": "Login",
       "forgotpassword": "Passwort vergessen",
-      "reset": "Passwort zurücksetzen"
+      "reset": "Passwort zurücksetzen",
+      "profile": "Profil bearbeiten"
     },
     "form" : {
       "salutation": "Anrede",

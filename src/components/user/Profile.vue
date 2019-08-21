@@ -1,14 +1,16 @@
 <template>
   <div>
-    <h1>Profile</h1>
-
-
+    <ProfileForm />
   
   </div>
 </template>
 
 <script>
+  import ProfileForm from '@/components/user/ProfileForm'
   export default {
-    name: "Profile"
+    name: "Profile",
+    components: {
+      ProfileForm
+    }
   }
 </script>

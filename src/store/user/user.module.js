@@ -23,7 +23,7 @@ export const state = { ...initialState }
 
 const getters = {
   isAuthenticated(state){
-    return state.user.token;
+    return !!state.user.token;
   },
 }
 
@@ -65,7 +65,7 @@ export const actions = {
 
     if(response.status === 200 && response.data && response.data.token){
       context.commit(SET_TOKEN, response.data.token)
-      router.push('/dashboard')
+      router.push('/member')
     }
   },
   async [LOGOUT_FETCH] (context){

@@ -6,7 +6,7 @@ const cors = require('cors')
 const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
+const path = require('path');
 const database = require('./helpers/Database');
 const USERPERMISSION = require('./helpers/Userpermission')
 
@@ -16,20 +16,22 @@ const adminRoutes = require('./routes/admin/index')
 const superAdminRoutes = require('./routes/superadmin/index')
 
 const app = express()
-app.use(cors({
-  origin: 'http://localhost:8080'
-}))
 const port = process.env.PORT || 3000
+
+app.use(cors({
+  origin: process.env.PORT ? `http://localhost:${process.env.PORT}` : 'http://localhost:8080'
+}))
 
 app.use(cookieParser()); // read cookies (needed for auth
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.use(express.static('public')); // Folder for public files
-
 // required for passport
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+
+// serve vue index.html for production
+app.use(express.static('dist'));
 
 // route middleware to make sure a user is logged in
 const isMember = (req, res, next) => {
@@ -71,6 +73,10 @@ app.use(
   superAdminRoutes
 );
 
+// Redirect all unmatched routes to the index.html and use them with vue router 
+app.all('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
 
 
 

@@ -65,7 +65,7 @@ export const actions = {
   async [ANIMALS_FETCH_DEL] (context, id) {
     await axios.delete(`http://localhost:3000/api/animal/${id}`)
     context.commit(ANIMALS_DEL, id)
-  }
+  },
 }
 
 export default {
