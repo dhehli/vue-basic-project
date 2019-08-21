@@ -58,7 +58,8 @@
 </template>
 
 <script>
-  import { REGISTER_FETCH_ADD } from '@/store/user/actions.type'
+  import { mapGetters } from "vuex";
+  import { USER_FETCH } from '@/store/user/actions.type'
 
   export default {
     name: "ProfileForm",
@@ -71,14 +72,11 @@
         salutations: [
           { value: 1, text: 'Herr' },
           { value: 2, text: 'Frau' }
-        ],
-        user: {
-          salutation: 1,
-          firstname: '',
-          lastname: '',
-          email: '',
-        },
+        ]
       }
+    },
+    computed: {
+      ...mapGetters(['user'])
     },
     methods: {
       onSubmit(evt) {
@@ -96,7 +94,13 @@
         .finally(()=> {
           this.isSubmitting = false;
         })
+      },
+      getUser(){
+        this.$store.dispatch(USER_FETCH)
       }
+    },
+    mounted(){      
+      this.getUser();
     }
   }
 </script>

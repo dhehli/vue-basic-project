@@ -3,19 +3,24 @@ import router from '@/router'
 
 import { 
   SET_TOKEN,
-  DESTROY_TOKEN
+  DESTROY_TOKEN,
+  USER_SET
 } from './mutations.type.js'
 
 import { 
   REGISTER_FETCH_ADD,
-  LOGIN_FETCH_ADD,
-  LOGOUT_FETCH
+  LOGIN_FETCH,
+  LOGOUT_FETCH,
+  USER_FETCH
 } from './actions.type.js'
-
 
 const initialState = {
   user: {
-    token: ''
+    token: '',
+    salutation: 0,
+    firstname: '',
+    lastname: '',
+    email: '',
   }
 }
 
@@ -25,6 +30,9 @@ const getters = {
   isAuthenticated(state){
     return !!state.user.token;
   },
+  user(state){
+    return state.user;
+  }
 }
 
 export const mutations = {
@@ -33,6 +41,10 @@ export const mutations = {
   },
   [DESTROY_TOKEN] (state) {
     state.user.token = '';
+  },
+  [USER_SET] (state, payload) {
+    console.log("payload", payload)
+    state.user = payload;
   },
 }
 
@@ -55,7 +67,7 @@ export const actions = {
       }
     })
   },
-  async [LOGIN_FETCH_ADD] (context, payload){
+  async [LOGIN_FETCH] (context, payload){
     const { email, password } = payload;
 
     const response = await axios.post('http://localhost:3000/api/login', {
@@ -70,6 +82,20 @@ export const actions = {
   },
   async [LOGOUT_FETCH] (context){
     context.commit(DESTROY_TOKEN)
+  },
+  async [USER_FETCH] (context, payload){
+
+    try{
+      const response = await axios.post('http://localhost:3000/member/api/profile') 
+
+      console.log("response", response)
+
+      const {data} = response
+      context.commit(USER_SET, data)
+    }catch(e){
+      console.log("error", e)
+    }
+    
   }
 }
 

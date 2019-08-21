@@ -35,14 +35,11 @@ router.post('/api/forgotpassword', [
   const data = req.body;
   let { email } = data.variables;
 
-
   const isEmailTaken = await lookupTakenMail(email)
 
   if(!isEmailTaken){
     return res.status(422).json({ errors: [{msg: "Email not found"}] });
   }
-
-  console.log("data")
   
   const storeForgotPassword = await gqlconnect('/netlive', data);
   return res.status(200).json(storeForgotPassword);

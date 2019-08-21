@@ -11,7 +11,7 @@ const asyncMiddleware = require('../../helpers/asyncMiddleware')
 const passport = require('../../helpers/passport')
 
 const lookupTakenMail = async email => {
-  emailLookupQuery = {
+  const emailLookupQuery = {
     query: `query($email: String!){
       getAddress(input: {email: $email}){
         totalCount

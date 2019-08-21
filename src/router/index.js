@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import { beforeEnter } from '@/router/guardMember'
 
 import Home from '@/views/Home'

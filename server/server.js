@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const { check, validationResult } = require( 'express-validator');
 const cors = require('cors')
 const passport = require('passport');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const database = require('./helpers/Database');
