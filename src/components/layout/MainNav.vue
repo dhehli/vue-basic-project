@@ -32,6 +32,7 @@
 import LocaleChanger from './LocaleChanger'
 import router from '@/router'
 import { LOGOUT_FETCH } from '@/store/user/actions.type'
+import { mapState } from 'vuex'
 
 export default {
   name: "MainNav",
@@ -48,6 +49,9 @@ export default {
         console.log("err", err)
       })     
     },    
-  }
+  },
+  computed: mapState({
+    isAuthenticated: state => state.user.isAuthenticated
+  })
 }
 </script>

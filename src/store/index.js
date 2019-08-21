@@ -4,11 +4,17 @@ import Vuex from 'vuex'
 import animals from './animals/animals.module'
 import user from './user/user.module'
 
+import createPersistedState from 'vuex-persistedstate';
+
+
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
   modules: {
     animals,
     user
-  }
+  },
+  plugins: [createPersistedState({
+    paths: ['user.user.token'] // Path to state which should be persisted
+  })]
 })

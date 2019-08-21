@@ -1,0 +1,35 @@
+{
+  "mysql": {
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": "",
+    "multipleStatements": 
+  },
+  "gql": {
+    "host": "",
+    "port": "",
+    "method": "",
+    "headers": {
+      "Content-Type": "",
+      "Authorization": ""
+    }
+  },  
+  "session": {
+    "secret": "",
+    "resave": ,
+    "saveUninitialized": 
+  },
+  "nodeMailer": {
+    "host": "",
+    " port": ,
+    "secure": , 
+    "auth": {
+      "user": "", 
+      "pass": "" 
+    },
+    "tls": { "rejectUnauthorized":  }
+  },
+  "defaultMail": "",
+  "domain": ""
+}

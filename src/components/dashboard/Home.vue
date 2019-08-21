@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>Dashboard</h1>
+    {{ this.$store.state.user.user.token}}<br>
+    {{ this.$store.state.user.test}}
   </div>
 </template>
 

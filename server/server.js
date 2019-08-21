@@ -5,7 +5,7 @@ const { check, validationResult } = require( 'express-validator');
 const cors = require('cors')
 const passport = require('passport');
 const session = require('express-session');
-const  cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
 const database = require('./helpers/Database');
 const USERPERMISSION = require('./helpers/Userpermission')
@@ -16,7 +16,9 @@ const adminRoutes = require('./routes/admin/index')
 const superAdminRoutes = require('./routes/superadmin/index')
 
 const app = express()
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:8080'
+}))
 const port = process.env.PORT || 3000
 
 app.use(cookieParser()); // read cookies (needed for auth
@@ -26,7 +28,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static('public')); // Folder for public files
 
 // required for passport
-app.use(session(config.get("session")))
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
@@ -51,9 +52,24 @@ const isSuperAdmin = (req, res, next) => {
 }
 
 app.use(publicRoutes);
-app.use('/member', passport.authenticate('jwt', {session: false}), isMember, memberRoutes);
-app.use('/admin', passport.authenticate('jwt', {session: false}), isAdmin, adminRoutes);
-app.use('/superadmin', passport.authenticate('jwt', {session: false}), isSuperAdmin, superAdminRoutes);
+app.use(
+  '/member', 
+  passport.authenticate('jwt', {session: false}), 
+  isMember, 
+  memberRoutes
+)
+app.use(
+  '/admin', 
+  passport.authenticate('jwt', {session: false}), 
+  isAdmin, 
+  adminRoutes
+)
+app.use(
+  '/superadmin', 
+  passport.authenticate('jwt', {session: false}), 
+  isSuperAdmin, 
+  superAdminRoutes
+);
 
 
 

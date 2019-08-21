@@ -15,7 +15,10 @@ import {
 
 
 const initialState = {
-  user: { }
+  user: {
+    token: ''
+  },
+  test: 0
 }
 
 export const state = { ...initialState }
@@ -28,6 +31,8 @@ const getters = {
 
 export const mutations = {
   [SET_TOKEN] (state, token) {
+    state.user.token = token;
+    state.test = 123;
     Vue.prototype.$session.start()
     Vue.prototype.$session.set('jwt', token)
   },
