@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {store} from '@/store'
+
 import Home from '@/views/Home'
 import Animal from '@/views/Animal'
 import AnimalList from '@/components/animals/AnimalList'
@@ -13,6 +15,7 @@ import ForgotPassword from '@/components/user/ForgotPasswordForm'
 import ResetPassword from '@/components/user/ResetPasswordForm'
 
 import Dashboard from '@/components/dashboard/Home'
+
 
 Vue.use(Router)
 
@@ -76,7 +79,7 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        if(Vue.prototype.$session.exists()) {
+        if(store.state.user.user.token) {
           next(); // allow to enter route
         } else{
           next('/login'); // go to '/login';

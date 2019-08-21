@@ -1,6 +1,5 @@
 import axios from '@/helpers/axios'
 import router from '@/router'
-import Vue from 'vue'
 
 import { 
   SET_TOKEN,
@@ -17,27 +16,23 @@ import {
 const initialState = {
   user: {
     token: ''
-  },
-  test: 0
+  }
 }
 
 export const state = { ...initialState }
 
 const getters = {
-  isAuthenticated(){
-    return Vue.prototype.$session.exists();
+  isAuthenticated(state){
+    return state.user.token;
   },
 }
 
 export const mutations = {
   [SET_TOKEN] (state, token) {
     state.user.token = token;
-    state.test = 123;
-    Vue.prototype.$session.start()
-    Vue.prototype.$session.set('jwt', token)
   },
-  [DESTROY_TOKEN] () {
-    Vue.prototype.$session.destroy()
+  [DESTROY_TOKEN] (state) {
+    state.user.token = '';
   },
 }
 
