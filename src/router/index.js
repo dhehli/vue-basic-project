@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {store} from '@/store'
+
+import { beforeEnter } from '@/router/guardMember'
 
 import Home from '@/views/Home'
+import Member from '@/views/Member'
+
 import Animal from '@/views/Animal'
 import AnimalList from '@/components/animals/AnimalList'
 import AnimalAddForm from '@/components/animals/AnimalAddForm.vue'
@@ -15,6 +18,7 @@ import ForgotPassword from '@/components/user/ForgotPasswordForm'
 import ResetPassword from '@/components/user/ResetPasswordForm'
 
 import Dashboard from '@/components/dashboard/Home'
+import Profile from '@/components/user/Profile'
 
 
 Vue.use(Router)
@@ -75,16 +79,21 @@ export default new Router({
       component: ResetPassword
     },
     {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
-      beforeEnter: (to, from, next) => {
-        if(store.state.user.user.token) {
-          next(); // allow to enter route
-        } else{
-          next('/login'); // go to '/login';
-        }
-      }
-    },    
+      path: '/member',
+      component: Member,
+      beforeEnter,
+      children: [
+        {
+          path: '',
+          name: 'Dashboard',
+          component: Dashboard
+        },
+        {
+          path: 'profile',
+          name: 'Profile',
+          component: Profile
+        },           
+      ]
+    },   
   ]
 })
