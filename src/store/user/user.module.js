@@ -12,7 +12,8 @@ import {
   LOGIN_FETCH,
   LOGOUT_FETCH,
   USER_FETCH,
-  USER_FETCH_UPDATE
+  USER_FETCH_UPDATE,
+  USER_FETCH_CHANGE_PW
 } from './actions.type.js'
 
 const initialState = {
@@ -104,7 +105,6 @@ export const actions = {
     context.commit(USER_SET, data)    
   },
   async [USER_FETCH_UPDATE] (context, payload){
-    console.log('payload', payload.email);
     const { salutation_id, firstname, lastname, email } = payload
     const response = await axios.post('http://localhost:3000/member/api/profile', {
       query: `mutation updateAddress($address_id: ID!, $salutation_id: ID!, $firstname: String!, $lastname: String!, $email: String!) {
@@ -127,6 +127,22 @@ export const actions = {
     const {data} = response
     context.commit(USER_SET, data)    
   },
+  async [USER_FETCH_CHANGE_PW] (context, payload){
+    const { password, matchpassword } = payload
+
+   await axios.post('http://localhost:3000/member/api/changepassword', {
+      query: `mutation updateAddress($address_id: ID!, $password: String!) {
+        updateAddress(input: {address_id: $address_id,password: $password}) {
+          address_id
+        }
+      }`,
+      variables: {
+        address_id: '',
+        password,
+        matchpassword
+      }
+    })
+  }
 }
 
 export default {

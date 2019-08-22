@@ -26,7 +26,8 @@
       "login": "Login",
       "forgotpassword": "Passwort vergessen",
       "reset": "Passwort zurücksetzen",
-      "profile": "Profil bearbeiten"
+      "profile": "Profil bearbeiten",
+      "change": "Passwort ändern"
     },
     "form" : {
       "salutation": "Anrede",

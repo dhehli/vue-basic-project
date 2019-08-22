@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ $t('register.title.profile') }}</h1>
+    <h3>{{ $t('register.title.profile') }}</h3>
 
     <b-alert variant="success" v-if="isDone" show>
      user modified
