@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MainNav />
+    <NavHolder />
     <b-container class="bv-example-row mt-5">
       <b-row>
         <b-col>
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import MainNav from '@/components/layout/MainNav'
+import NavHolder from '@/components/layout/NavHolder'
 
 export default {
   name: 'App',
   components: {
-    MainNav
+    NavHolder
   }
 }
 </script>

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <h1>Dashboard</h1>
-    <div v-show="isAuthenticated">
-      Das ist das if
-      {{ this.$store.state.user.user.token}}
-    </div>
+    <h1>Dashboard</h1>    
   </div>
 </template>
 

@@ -17,11 +17,11 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <LocaleChanger />
-        <b-nav-item-dropdown right v-show="isAuthenticated">
+        <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template slot="button-content">User</template>
-          <b-dropdown-item to="/member/profile">Profile</b-dropdown-item>
-          <b-dropdown-item v-on:click="onLogout">Sign Out</b-dropdown-item>
+          <b-dropdown-item to="/register">Register</b-dropdown-item>
+          <b-dropdown-item to="/login">Login</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -29,29 +29,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import LocaleChanger from './LocaleChanger'
-import router from '@/router'
-import { LOGOUT_FETCH } from '@/store/user/actions.type'
 
 export default {
   name: "MainNav",
   components: {
     LocaleChanger
-  },
-  methods: {
-    onLogout() {
-      this.$store.dispatch(LOGOUT_FETCH)
-      .then(() => {
-        router.push('/')
-      })
-      .catch(err => {
-        console.log("err", err)
-      })     
-    },    
-  },
-  computed: {
-    ...mapGetters(['isAuthenticated'])
-  },
+  }
 }
 </script>
