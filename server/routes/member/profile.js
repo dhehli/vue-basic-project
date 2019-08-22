@@ -5,25 +5,26 @@ const gqlconnect = require('../../helpers/gqlConnect');
 const asyncMiddleware = require('../../helpers/asyncMiddleware');
 
 router.post('/api/profile', asyncMiddleware(async (req, res, next) => {
-  console.log("req", req.user)
-  const query = {
-    query: `query($address_id: ID!){
-      getAddress(input: {address_id: $address_id}){
-        nodes{
-          salutation_id
-          firstname
-          lastname
-          email
-        }
-        totalCount
-      }
-    }`,
-    variables: { address_id: req.user.address_id }
+  let responseData;
+  const data = req.body;
+  const { address_id } = req.user;
+
+  data.variables.address_id = address_id
+
+  const response = await gqlconnect('/netliveprivate', data);
+
+  if(response.data.getAddress){
+    responseData = {
+      ...response.data.getAddress.nodes[0]
+    }
+  }
+  if(response.data.updateAddress){
+    responseData = {
+      ...response.data.updateAddress
+    }
   }
 
-  const response = await gqlconnect('/netliveprivate', query);
-
-  return res.status(200).json(response);
+  return res.status(200).json(responseData);
 }))
 
 

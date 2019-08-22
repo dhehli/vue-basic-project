@@ -15,6 +15,6 @@ export const store = new Vuex.Store({
     user
   },
   plugins: [createPersistedState({
-    paths: ['user.user.token'] // Path to state which should be persisted
+    paths: ['user.auth.token'] // Path to state which should be persisted
   })]
 })

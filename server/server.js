@@ -17,9 +17,7 @@ const superAdminRoutes = require('./routes/superadmin/index')
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(cors({
-  origin: process.env.PORT ? `http://localhost:${process.env.PORT}` : 'http://localhost:8080'
-}))
+app.use(cors())
 
 app.use(cookieParser()); // read cookies (needed for auth
 app.use(bodyParser.json());

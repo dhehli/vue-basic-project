@@ -13,8 +13,8 @@
     </div>
 
     <b-form @submit="onSubmit" v-if="showForm">
-      <b-form-group id="salutation" label="Anrede" label-for="salutation">
-        <b-form-select v-model="user.salutation" :options="salutations"></b-form-select>
+      <b-form-group id="salutation_id" label="Anrede" label-for="salutation_id">
+        <b-form-select v-model="user.salutation_id" :options="salutations"></b-form-select>
       </b-form-group>
 
       <b-form-group id="firstname" label="Vorname" label-for="firstname">
@@ -51,15 +51,12 @@
       </b-button>
       
     </b-form>
-    <b-card class="mt-3" header="Form Data Result">
-      <pre class="m-0">{{ user }}</pre>
-    </b-card>
   </div>
 </template>
 
 <script>
   import { mapGetters } from "vuex";
-  import { USER_FETCH } from '@/store/user/actions.type'
+  import { USER_FETCH, USER_FETCH_UPDATE } from '@/store/user/actions.type'
 
   export default {
     name: "ProfileForm",
@@ -84,7 +81,7 @@
         this.isSubmitting = true;
         this.errors = [];
 
-        this.$store.dispatch(REGISTER_FETCH_ADD, this.user)
+        this.$store.dispatch(USER_FETCH_UPDATE, this.user)
         .then(() => {
           this.isDone = true;
         })
