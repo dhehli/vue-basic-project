@@ -11,7 +11,7 @@ router.post('/api/profile', asyncMiddleware(async (req, res, next) => {
   let responseData;
   const data = req.body;
   const { address_id } = req.user;
-
+  
   data.variables.address_id = address_id
 
   const response = await gqlconnect('/netliveprivate', data);

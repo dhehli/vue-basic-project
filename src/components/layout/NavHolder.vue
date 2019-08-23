@@ -1,6 +1,7 @@
 <template>
   <div>
-    <PublicNav v-if="!isAuthenticated" />
+    <PublicNav v-if="!isAuthenticated" 
+    />
     <MemberNav v-if="isAuthenticated"/>
   </div>
 </template>
@@ -11,7 +12,7 @@ import PublicNav from '@/components/layout/PublicNav'
 import MemberNav from '@/components/layout/MemberNav'
 
 export default {
-  name: "MainNav",
+  name: "NavHolder",
   components: {
     PublicNav,
     MemberNav

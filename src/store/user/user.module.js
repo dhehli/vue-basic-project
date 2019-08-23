@@ -130,7 +130,7 @@ export const actions = {
   async [USER_FETCH_CHANGE_PW] (context, payload){
     const { password, matchpassword } = payload
 
-   await axios.post('http://localhost:3000/member/api/changepassword', {
+    await axios.post('http://localhost:3000/member/api/changepassword', {
       query: `mutation updateAddress($address_id: ID!, $password: String!) {
         updateAddress(input: {address_id: $address_id,password: $password}) {
           address_id
