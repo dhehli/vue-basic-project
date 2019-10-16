@@ -19,6 +19,7 @@ import ResetPassword from '@/components/user/ResetPasswordForm'
 import Dashboard from '@/components/dashboard/Home'
 import Profile from '@/components/user/Profile'
 
+import Mandant from '@/views/Mandant'
 
 Vue.use(Router)
 
@@ -93,6 +94,11 @@ export default new Router({
           component: Profile
         },           
       ]
-    },   
+    }, 
+    {
+      path: '/mandant',
+      name: 'Mandant',
+      component: Mandant
+    }, 
   ]
 })
